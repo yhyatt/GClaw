@@ -1,5 +1,6 @@
 """Email fetcher with deduplication and bot context enforcement."""
 
+import logging
 import os
 from typing import Optional
 
@@ -9,6 +10,8 @@ from kaimail.client import GogGmailClient
 from kaimail.models import ParsedEmail
 from kaimail.parser import EmailParser
 from kaimail.store import EmailStore
+
+logger = logging.getLogger(__name__)
 
 
 class EmailFetcher:
@@ -101,7 +104,11 @@ class EmailFetcher:
             # Get full thread for body content
             try:
                 thread = self.client.get_thread(email.thread_id)
-            except Exception:
+            except Exception as e:
+                logger.warning(
+                    "failed to fetch thread %s for email %s: %s",
+                    email.thread_id, email.id, e
+                )
                 thread = None
 
             # Parse

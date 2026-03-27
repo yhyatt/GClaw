@@ -1,5 +1,6 @@
 """Email store for persistence and deduplication."""
 
+import fcntl
 import json
 import os
 from datetime import datetime
@@ -41,16 +42,26 @@ class EmailStore:
         return set()
 
     def _save_seen(self) -> None:
-        """Save seen message IDs to disk."""
-        with open(self.seen_file, "w") as f:
-            json.dump(
-                {
-                    "seen": list(self._seen_ids),
-                    "updated_at": datetime.now().isoformat(),
-                },
-                f,
-                indent=2,
-            )
+        """Save seen message IDs to disk atomically with file locking."""
+        tmp_file = Path(str(self.seen_file) + ".tmp")
+        lock_file = Path(str(self.seen_file) + ".lock")
+        # Acquire exclusive lock
+        with open(lock_file, "w") as lf:
+            fcntl.flock(lf, fcntl.LOCK_EX)
+            try:
+                # Write to temp file first, then atomically replace
+                with open(tmp_file, "w") as f:
+                    json.dump(
+                        {
+                            "seen": list(self._seen_ids),
+                            "updated_at": datetime.now().isoformat(),
+                        },
+                        f,
+                        indent=2,
+                    )
+                os.replace(tmp_file, self.seen_file)
+            finally:
+                fcntl.flock(lf, fcntl.LOCK_UN)
 
     def is_seen(self, message_id: str) -> bool:
         """Check if a message has been seen."""
