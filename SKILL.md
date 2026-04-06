@@ -100,7 +100,7 @@ pytest tests/
 ## Requirements
 
 - Python 3.10+
-- [gog skill](https://clawhub.com/skills/gog) installed and authenticated
+- [gog skill](https://github.com/yhyatt/gclaw) installed and authenticated
 - `GOG_KEYRING_PASSWORD` env var set
 
 ## License

@@ -7,7 +7,7 @@
 
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue)](https://github.com/yhyatt/gclaw)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://clawhub.com/skills/gclaw)
+[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue)](https://github.com/yhyatt/gclaw)
 
 No email client. No dashboards. No manual sorting.  
 Just structured email data your bots can actually use.
@@ -46,7 +46,7 @@ Gmail (via gog CLI)
 ## Quick Start
 
 ```bash
-pip install gog  # Google OAuth CLI — see clawhub.com/skills/gog
+pip install gog  # Google OAuth CLI — see https://github.com/yhyatt/gclaw
 export GCLAW_GMAIL_ACCOUNT="your@gmail.com"
 export GOG_KEYRING_PASSWORD="your-keyring-password"
 pip install -e .
@@ -94,7 +94,7 @@ for email in emails:
 ## Requirements
 
 - Python 3.10+
-- [gog](https://clawhub.com/skills/gog) skill (Google OAuth CLI)
+- [gog](https://github.com/yhyatt/gclaw) skill (Google OAuth CLI)
 - Gmail account with OAuth configured
 
 ## License
